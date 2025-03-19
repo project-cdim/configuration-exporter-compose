@@ -1,0 +1,43 @@
+services:
+  configuration-exporter:
+    build:
+      context: .
+      dockerfile: ./configuration-exporter/Dockerfile
+    container_name: configuration-exporter
+    ports:
+      - 8283:8080
+      - 3507:3500
+    networks:
+      - cdim-net
+    volumes:
+      - configuration-exporter-log:/var/log/cdim
+      - ./configuration-exporter/configuration-exporter:/app
+    logging:
+      options:
+        max-size: 50m
+
+  configuration-exporter-dapr:
+    image: daprio/daprd:edge
+    container_name: configuration-exporter-dapr
+    command:
+      [
+        "./daprd",
+        "-app-id","configuration-exporter",
+        "-app-port","8080",
+        "-dapr-http-port","3500",
+        "-placement-host-address",
+        "placement:50006"
+      ]
+    depends_on:
+      - configuration-exporter
+    network_mode: "service:configuration-exporter"
+    logging:
+      options:
+        max-size: 50m
+
+networks:
+  cdim-net:
+    external: true
+
+volumes:
+  configuration-exporter-log:

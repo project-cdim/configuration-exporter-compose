@@ -1,0 +1,3 @@
+[submodule "configuration-exporter/configuration-exporter"]
+	path = configuration-exporter/configuration-exporter
+	url = https://github.com/project-cdim/configuration-exporter.git

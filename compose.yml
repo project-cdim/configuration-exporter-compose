@@ -12,6 +12,7 @@ services:
     volumes:
       - configuration-exporter-log:/var/log/cdim
       - ./configuration-exporter/configuration-exporter:/app
+      - ./configuration-exporter/configs/:/app/configs
     logging:
       options:
         max-size: 50m
@@ -25,9 +26,11 @@ services:
         "-app-id","configuration-exporter",
         "-app-port","8080",
         "-dapr-http-port","3500",
-        "-placement-host-address",
-        "placement:50006"
+        "-placement-host-address","placement:50006",
+        "-resources-path","/components",
       ]
+    volumes:
+      - "./configuration-exporter/dapr/components/:/components"
     depends_on:
       - configuration-exporter
     network_mode: "service:configuration-exporter"

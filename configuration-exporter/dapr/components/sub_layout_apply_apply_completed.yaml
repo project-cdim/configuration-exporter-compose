@@ -1,0 +1,9 @@
+apiVersion: dapr.io/v2alpha1
+kind: Subscription
+metadata:
+  name: layout_apply_apply_completed
+spec:
+  topic: layout_apply.apply.completed
+  routes:
+    default: /cdim/api/v1/devices/sync
+  pubsubname: layout_apply_apply

@@ -1,6 +1,6 @@
-FROM golang:1.23-alpine
+FROM golang:1.24-alpine3.22
 
-# upgrading packages
+# upgrading packages and installing git
 RUN apk update && \
     apk upgrade --available && \
     apk add --no-cache \
